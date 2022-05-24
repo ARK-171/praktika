@@ -1,0 +1,1133 @@
+using System;
+using System.Collections.Generic;
+
+namespace praktika
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Для управления программой используются команды :");
+            Console.WriteLine("<информация> - выводит на экран информацию о колонии, отдельных муровьях или особых насекомых");
+            Console.WriteLine("<старт> - начинает следующий день");
+            Console.WriteLine("<стоп> - прекращает работу программы");
+            string comand;
+            string col;
+            string inf;
+            int i = 0;
+            List<Colony> colonies = new List<Colony>();
+            colonies.Add(new Colony("чёрные", new Queen("Амалия", new int[] { 2, 4 }, new int[] { 3, 4 }, 1, 1, 0, 3, 1, 1)));
+            colonies.Add(new Colony("красные", new Queen("Гвиндолина", new int[] { 2, 3 }, new int[] { 3, 4 }, 2, 2, 0, 2, 0, 2)));
+            colonies.Add(new Colony("рыжие", new Queen("Евангелина", new int[] { 1, 3 }, new int[] { 1, 5 }, 3, 3, 0, 5, 2, 0)));
+            int count = 3;
+            Kucha[] kucha = new Kucha[] {new Kucha(100,100,100,100), new Kucha(100, 100, 100, 100), new Kucha(100, 100, 100, 100), new Kucha(100, 100, 100, 100), new Kucha(100, 100, 100, 100) };
+            for (int j = 0; j < count; j++)
+            {
+                for (int g = 0; g < 7; g++)
+                {
+                    if (colonies[j].queen.colony == 1)
+                    {
+                        colonies[j].worker.Add(new Worker("легендарный", 1, colonies[j].queen.num, 1, 1, 2, 3, 3));
+                    }
+                    if (colonies[j].queen.colony == 2)
+                    {
+                        colonies[j].worker.Add(new Worker("старший", 2, colonies[j].queen.num, 2, 1, 2, 1, 1));
+                    }
+                    if (colonies[j].queen.colony == 3)
+                    {
+                        colonies[j].worker.Add(new Worker("легендарный", 3, colonies[j].queen.num, 1, 2, 2, 2, 3));
+                    }
+                }
+                for (int g = 0; g < 7; g++)
+                {
+                    if (colonies[j].queen.colony == 1)
+                    {
+                        colonies[j].worker2.Add(new Worker("легендарный крепкий", 1, colonies[j].queen.num, 2, 2, 2, 1, 3, 1, 1, 0));
+                    }
+                    if (colonies[j].queen.colony == 2)
+                    {
+                        colonies[j].worker2.Add(new Worker("легендарный бригадир", 2, colonies[j].queen.num, 2, 2, 2, 1, 3));
+                    }
+                    if (colonies[j].queen.colony == 3)
+                    {
+                        colonies[j].worker2.Add(new Worker("старший бригадир", 3, colonies[j].queen.num, 1, 2, 2, 1, 1));
+                    }
+                }
+                for (int g = 0; g < 7; g++)
+                {
+                    if (colonies[j].queen.colony == 1)
+                    {
+                        colonies[j].warior.Add(new Warior(0, "обычный", 1, colonies[j].queen.num));
+                    }
+                    if (colonies[j].queen.colony == 2)
+                    {
+                        colonies[j].warior.Add(new Warior(0, "старший", 2, colonies[j].queen.num));
+                    }
+                    if (colonies[j].queen.colony == 3)
+                    {
+                        colonies[j].warior.Add(new Warior(0, "продвинутый", 3, colonies[j].queen.num, 2));
+                    }
+                }
+                for (int g = 0; g < 7; g++)
+                {
+                    if (colonies[j].queen.colony == 1)
+                    {
+                        colonies[j].warior2.Add(new Warior(0, "продвинутый худой", 1, colonies[j].queen.num, 2, 1, 1, 0));
+                    }
+                    if (colonies[j].queen.colony == 2)
+                    {
+                        colonies[j].warior2.Add(new Warior(1, "обычный аномальный", 2, colonies[j].queen.num));
+                    }
+                    if (colonies[j].queen.colony == 3)
+                    {
+                        colonies[j].warior2.Add(new Warior(0, "старший сосредоточенный", 3, colonies[j].queen.num, 1, 1, 1, 1, 2));
+                    }
+                }
+            }
+            Colony a = colonies[0];
+            a.scarab = new Scarab("не может быть атакован войнами", 1, 0, 1, 3, 3, 3, 3, 3);
+            a.termite = new Termite("не может быть атакован войнами", 0, 0, 2);
+            a.butterfly = new Butterfly("не может быть атакован войнами\n урон всех воинов увеличен на 1", 0, 0, 3, 0, 0, 2, 0, 2);
+            colonies[0] = a;
+            a = colonies[1];
+            a.scarab = new Scarab("не может быть атакован войнами", 0, 0, 1, 3, 3, 3, 3, 3);
+            a.termite = new Termite("не может быть атакован войнами", 1, 0, 2);
+            a.butterfly = new Butterfly("не может быть атакован войнами\n урон всех воинов увеличен на 1", 0, 0, 3, 0, 0, 2, 0, 2);
+            colonies[1] = a;
+            a = colonies[2];
+            a.scarab = new Scarab("не может быть атакован войнами", 0, 0, 1, 3, 3, 3, 3, 3);
+            a.termite = new Termite("не может быть атакован войнами", 0, 0, 2);
+            a.butterfly = new Butterfly("не может быть атакован войнами\n урон всех воинов увеличен на 1", 1, 0, 3, 0, 0, 2, 0, 2);
+            colonies[2] = a;
+            Random random = new Random();
+
+            Console.WriteLine("________________________");
+            Console.WriteLine();
+
+            while (i < 10)
+            {
+                comand = Console.ReadLine();
+                if (comand == "старт")
+                {
+                    Console.WriteLine($"День {i}  (До засухи {10 - i} дней)");
+                    if (i < 8)
+                    {
+                        Console.WriteLine($"Действует эфект \"Шелкопряд\" , ещё {8-i} дней ");
+                    }
+                    Console.WriteLine();
+                    foreach (Colony j in colonies)
+                    {
+                        a = j;
+                        Console.WriteLine($"Колония \"{j.name}\" :");
+                        Console.WriteLine($"---- Королева \"{j.queen.name}\"");
+                        Console.WriteLine($"---- Популяция : Воины - {j.warior.Count + j.warior2.Count - 2} ; Рабочие - {j.worker.Count + j.worker2.Count - 2} ; Особые - {j.scarab.life + j.termite.life + j.butterfly.life}");
+                        Console.WriteLine($"---- Ресурсы : в = {j.branch}, к = {j.stone}, л = {j.leaf}, р = {j.water}");
+                        Console.WriteLine();
+                    }
+                    for (int j = 0; j < 5; j++)
+                    {
+                        Console.WriteLine($"Куча {j + 1} : в = {kucha[j].branch}, к = {kucha[j].stone}, л = {kucha[j].leaf}, р = {kucha[j].water}");
+                    }
+
+                    for (int j = 0; j < count; j++)
+                    {
+                        
+                        for (int c = 0; c < colonies[j].worker.Count; c++)
+                        {
+                            Worker n = colonies[j].worker[c];
+                            kucha[random.Next(0, 5)].workers.Add(n);
+                        }
+                        for (int c = 0; c < colonies[j].worker2.Count; c++)
+                        {
+                            Worker n = colonies[j].worker2[c];
+                            kucha[random.Next(0, 5)].workers.Add(n);
+                        }
+                        for (int c = 0; c < colonies[j].warior.Count; c++)
+                        {
+                            Warior n = colonies[j].warior[c];
+                            kucha[random.Next(0, 5)].wariors.Add(n);
+                        }
+                        for (int c = 0; c < colonies[j].warior2.Count; c++)
+                        {
+                            Warior n = colonies[j].warior2[c];
+                            kucha[random.Next(0, 5)].wariors.Add(n);
+                        }
+                        if (colonies[j].scarab.life != 0)
+                        {
+                            Scarab n = colonies[j].scarab;
+                            kucha[random.Next(0, 5)].scarab = n;
+                        }
+                        if (colonies[j].termite.life != 0)
+                        {
+                            Termite n = colonies[j].termite;
+                            kucha[random.Next(0, 5)].termite = n;
+                        }
+                        if (colonies[j].butterfly.life != 0)
+                        {
+                            Butterfly n = colonies[j].butterfly;
+                            kucha[random.Next(0, 5)].butterfly = n;
+                        }
+                    }
+
+                    for (int k = 0; k < kucha.Length; k++)
+                    {
+                        for (int w = 0; w < kucha[k].wariors.Count; w++)
+                        {
+                            
+                            int r = random.Next(0, 2);
+                            if (r == 0)
+                            {
+                                int ch = random.Next(0, kucha[k].workers.Count);
+                                if (kucha[k].wariors[w].colony == 3)
+                                {
+                                    kucha[k].wariors[w].damage += 1;
+                                    kucha[k].wariors[w].fight( kucha[k].workers[ch], null);
+                                    kucha[k].wariors[w].damage -= 1;
+                                }
+                                if (kucha[k].wariors[w].colony != 3)
+                                {
+                                    kucha[k].wariors[w].fight( kucha[k].workers[ch], null);
+                                }
+                                if (kucha[k].workers[ch].hp == 0)
+                                {
+                                    kucha[k].workers[ch] = null;
+                                    kucha[k].workers.RemoveAt(ch);
+                                }
+                            }
+                            if (r == 1)
+                            {
+                                int ch = random.Next(0, kucha[k].wariors.Count);
+                                if (kucha[k].wariors[w].colony == 3)
+                                {
+                                    kucha[k].wariors[w].damage += 1;
+                                    kucha[k].wariors[w].fight(null, kucha[k].wariors[ch]);
+                                    kucha[k].wariors[w].damage -= 1;
+                                }
+                                if (kucha[k].wariors[w].colony != 3)
+                                {
+                                    kucha[k].wariors[w].fight(null, kucha[k].wariors[ch]);
+                                }
+                                if (kucha[k].wariors[ch].hp == 0)
+                                {
+                                    kucha[k].wariors[ch] = null;
+                                    kucha[k].wariors.RemoveAt(ch);
+                                }
+                                if (kucha[k].wariors[w].hp == 0)
+                                {
+                                    kucha[k].wariors[w] = null;
+                                    kucha[k].wariors.RemoveAt(w);
+                                }
+                            }
+                        }
+                        for (int w = 0; w < kucha[k].workers.Count; w++)
+                        {
+                            if (i < 8)
+                            {
+                                kucha[k].workers[w].count += 1;
+                            }
+                            int safe = kucha[k].workers[w].count;
+                            if(kucha[k].branch > kucha[k].workers[w].branch & kucha[k].workers[w].count > 0)
+                            {
+                                kucha[k].branch -= kucha[k].workers[w].branch;
+                                kucha[k].workers[w].count -= kucha[k].workers[w].branch;
+                                for (int c = 0; c < colonies.Count; c++)
+                                {
+                                    for (int l = 0; l < colonies[c].worker.Count; l++)
+                                    {
+                                        if (colonies[c].worker[l].num == kucha[k].workers[w].num)
+                                        {
+                                            colonies[c].Branch(kucha[k].workers[w].branch);
+                                        }
+                                    }
+                                }
+                            }
+                            if (kucha[k].branch < kucha[k].workers[w].branch & kucha[k].workers[w].count > 0 & kucha[k].branch > 0)
+                            {
+                                kucha[k].branch = 0;
+                                kucha[k].workers[w].count -= kucha[k].branch;
+                                for (int c = 0; c < colonies.Count; c++)
+                                {
+                                    for (int l = 0; l < colonies[c].worker.Count; l++)
+                                    {
+                                        if (colonies[c].worker[l].num == kucha[k].workers[w].num)
+                                        {
+                                            colonies[c].Branch(kucha[k].branch);
+                                        }
+                                    }
+                                }
+                            }
+                            if (kucha[k].leaf > kucha[k].workers[w].leaf & kucha[k].workers[w].count > 0)
+                            {
+                                kucha[k].leaf -= kucha[k].workers[w].leaf;
+                                kucha[k].workers[w].count -= kucha[k].workers[w].leaf;
+                                for (int c = 0; c < colonies.Count; c++)
+                                {
+                                    for (int l = 0; l < colonies[c].worker.Count; l++)
+                                    {
+                                        if (colonies[c].worker[l].num == kucha[k].workers[w].num)
+                                        {
+                                            colonies[c].Leaf(kucha[k].workers[w].leaf);
+                                        }
+                                    }
+                                }
+                            }
+                            if (kucha[k].leaf < kucha[k].workers[w].leaf & kucha[k].workers[w].count > 0 & kucha[k].leaf > 0)
+                            {
+                                kucha[k].leaf = 0;
+                                kucha[k].workers[w].count -= kucha[k].leaf;
+                                for (int c = 0; c < colonies.Count; c++)
+                                {
+                                    for (int l = 0; l < colonies[c].worker.Count; l++)
+                                    {
+                                        if (colonies[c].worker[l].num == kucha[k].workers[w].num)
+                                        {
+                                            colonies[c].Leaf(kucha[k].leaf);
+                                        }
+                                    }
+                                }
+                            }
+                            if (kucha[k].stone > kucha[k].workers[w].stone & kucha[k].workers[w].count > 0)
+                            {
+                                kucha[k].stone -= kucha[k].workers[w].stone;
+                                kucha[k].workers[w].count -= kucha[k].workers[w].stone;
+                                for (int c = 0; c < colonies.Count; c++)
+                                {
+                                    for (int l = 0; l < colonies[c].worker.Count; l++)
+                                    {
+                                        if (colonies[c].worker[l].num == kucha[k].workers[w].num)
+                                        {
+                                            colonies[c].Stone(kucha[k].workers[w].stone);
+                                        }
+                                    }
+                                }
+                            }
+                            if (kucha[k].stone < kucha[k].workers[w].stone & kucha[k].workers[w].count > 0 & kucha[k].stone > 0)
+                            {
+                                kucha[k].stone = 0;
+                                kucha[k].workers[w].count -= kucha[k].stone;
+                                for (int c = 0; c < colonies.Count; c++)
+                                {
+                                    for (int l = 0; l < colonies[c].worker.Count; l++)
+                                    {
+                                        if (colonies[c].worker[l].num == kucha[k].workers[w].num)
+                                        {
+                                            colonies[c].Stone(kucha[k].stone);
+                                        }
+                                    }
+                                }
+                            }
+                            if (kucha[k].water > kucha[k].workers[w].water & kucha[k].workers[w].count > 0)
+                            {
+                                kucha[k].water -= kucha[k].workers[w].water;
+                                kucha[k].workers[w].count -= kucha[k].workers[w].water;
+                                for (int c = 0; c < colonies.Count; c++)
+                                {
+                                    for (int l = 0; l < colonies[c].worker.Count; l++)
+                                    {
+                                        if (colonies[c].worker[l].num == kucha[k].workers[w].num)
+                                        {
+                                            colonies[c].Water(kucha[k].workers[w].water);
+                                        }
+                                    }
+                                }
+                            }
+                            if (kucha[k].water < kucha[k].workers[w].water & kucha[k].workers[w].count > 0 & kucha[k].water > 0)
+                            {
+                                kucha[k].water = 0;
+                                kucha[k].workers[w].count -= kucha[k].water;
+                                for (int c = 0; c < colonies.Count; c++)
+                                {
+                                    for (int l = 0; l < colonies[c].worker.Count; l++)
+                                    {
+                                        if (colonies[c].worker[l].num == kucha[k].workers[w].num)
+                                        {
+                                            colonies[c].Water(kucha[k].water);
+                                        }
+                                    }
+                                }
+                            }
+                            kucha[k].workers[w].count = safe;
+                        }
+                        if (kucha[k].scarab != null)
+                        {
+                            if (kucha[k].scarab.hp != 0)
+                            {
+                                int save = kucha[k].scarab.count;
+                                if (kucha[k].branch > kucha[k].scarab.branch & kucha[k].scarab.count > 0)
+                                {
+                                    kucha[k].branch -= kucha[k].scarab.branch;
+                                    kucha[k].scarab.count -= kucha[k].scarab.branch;
+                                    colonies[0].Branch(kucha[k].scarab.branch);
+                                }
+                                if (kucha[k].branch < kucha[k].scarab.branch & kucha[k].scarab.count > 0 & kucha[k].branch > 0)
+                                {
+                                    kucha[k].branch = 0;
+                                    kucha[k].scarab.count -= kucha[k].branch;
+                                    colonies[0].Branch(kucha[k].branch);
+                                }
+                                if (kucha[k].leaf > kucha[k].scarab.leaf & kucha[k].scarab.count > 0)
+                                {
+                                    kucha[k].leaf -= kucha[k].scarab.leaf;
+                                    kucha[k].scarab.count -= kucha[k].scarab.leaf;
+                                    colonies[0].Leaf(kucha[k].scarab.leaf);
+                                }
+                                if (kucha[k].leaf < kucha[k].scarab.leaf & kucha[k].scarab.count > 0 & kucha[k].leaf > 0)
+                                {
+                                    kucha[k].leaf = 0;
+                                    kucha[k].scarab.count -= kucha[k].leaf;
+                                    colonies[0].Leaf(kucha[k].leaf);
+                                }
+                                if (kucha[k].stone > kucha[k].scarab.stone & kucha[k].scarab.count > 0)
+                                {
+                                    kucha[k].stone -= kucha[k].scarab.stone;
+                                    kucha[k].scarab.count -= kucha[k].scarab.stone;
+                                    colonies[0].Stone(kucha[k].scarab.stone);
+                                }
+                                if (kucha[k].stone < kucha[k].scarab.stone & kucha[k].scarab.count > 0 & kucha[k].stone > 0)
+                                {
+                                    kucha[k].stone = 0;
+                                    kucha[k].scarab.count -= kucha[k].stone;
+                                    colonies[0].Stone(kucha[k].stone);
+                                }
+                                if (kucha[k].water > kucha[k].scarab.water & kucha[k].scarab.count > 0)
+                                {
+                                    kucha[k].water -= kucha[k].scarab.water;
+                                    kucha[k].scarab.count -= kucha[k].scarab.water;
+                                    colonies[0].Water(kucha[k].scarab.water);
+                                }
+                                if (kucha[k].water < kucha[k].scarab.water & kucha[k].scarab.count > 0 & kucha[k].water > 0)
+                                {
+                                    kucha[k].water = 0;
+                                    kucha[k].scarab.count -= kucha[k].water;
+                                    colonies[0].Water(kucha[k].water);
+                                }
+                                kucha[k].scarab.count = save;
+                            }
+                            
+                        }
+                        if (kucha[k].butterfly != null)
+                        {
+                            if (kucha[k].butterfly.hp != 0)
+                            {
+                                int save = kucha[k].butterfly.count;
+                                if (kucha[k].branch > kucha[k].butterfly.branch & kucha[k].butterfly.count > 0)
+                                {
+                                    kucha[k].branch -= kucha[k].butterfly.branch;
+                                    kucha[k].butterfly.count -= kucha[k].butterfly.branch;
+                                    colonies[0].Branch(kucha[k].butterfly.branch);
+                                }
+                                if (kucha[k].branch < kucha[k].butterfly.branch & kucha[k].butterfly.count > 0 & kucha[k].branch > 0)
+                                {
+                                    kucha[k].branch = 0;
+                                    kucha[k].butterfly.count -= kucha[k].branch;
+                                    colonies[0].Branch(kucha[k].branch);
+                                }
+                                if (kucha[k].leaf > kucha[k].butterfly.leaf & kucha[k].butterfly.count > 0)
+                                {
+                                    kucha[k].leaf -= kucha[k].butterfly.leaf;
+                                    kucha[k].butterfly.count -= kucha[k].butterfly.leaf;
+                                    colonies[0].Leaf(kucha[k].butterfly.leaf);
+                                }
+                                if (kucha[k].leaf < kucha[k].butterfly.leaf & kucha[k].butterfly.count > 0 & kucha[k].leaf > 0)
+                                {
+                                    kucha[k].leaf = 0;
+                                    kucha[k].butterfly.count -= kucha[k].leaf;
+                                    colonies[0].Leaf(kucha[k].leaf);
+                                }
+                                if (kucha[k].stone > kucha[k].butterfly.stone & kucha[k].butterfly.count > 0)
+                                {
+                                    kucha[k].stone -= kucha[k].butterfly.stone;
+                                    kucha[k].butterfly.count -= kucha[k].butterfly.stone;
+                                    colonies[0].Stone(kucha[k].butterfly.stone);
+                                }
+                                if (kucha[k].stone < kucha[k].butterfly.stone & kucha[k].butterfly.count > 0 & kucha[k].stone > 0)
+                                {
+                                    kucha[k].stone = 0;
+                                    kucha[k].butterfly.count -= kucha[k].stone;
+                                    colonies[0].Stone(kucha[k].stone);
+                                }
+                                if (kucha[k].water > kucha[k].butterfly.water & kucha[k].butterfly.count > 0)
+                                {
+                                    kucha[k].water -= kucha[k].butterfly.water;
+                                    kucha[k].butterfly.count -= kucha[k].butterfly.water;
+                                    colonies[0].Water(kucha[k].butterfly.water);
+                                }
+                                if (kucha[k].water < kucha[k].butterfly.water & kucha[k].butterfly.count > 0 & kucha[k].water > 0)
+                                {
+                                    kucha[k].water = 0;
+                                    kucha[k].butterfly.count -= kucha[k].water;
+                                    colonies[0].Water(kucha[k].water);
+                                }
+                                kucha[k].butterfly.count = save;
+                            }
+                            
+                        }
+                        if (kucha[k].termite != null)
+                        {
+                            int r = random.Next(0, 4);
+                            if (r == 0)
+                            {
+                                int ch = random.Next(0, kucha[k].workers.Count);
+                                kucha[k].termite.fight(kucha[k].workers[ch], null, null, null);
+                                if (kucha[k].workers[ch].hp == 0)
+                                {
+                                    kucha[k].workers[ch] = null;
+                                    kucha[k].workers.RemoveAt(ch);
+                                }
+                            }
+                            if (r == 1)
+                            {
+                                int ch = random.Next(0, kucha[k].wariors.Count);
+                                kucha[k].termite.fight( null, kucha[k].wariors[ch], null, null);
+                                if (kucha[k].wariors[ch].hp == 0)
+                                {
+                                    kucha[k].wariors[ch] = null;
+                                    kucha[k].wariors.RemoveAt(ch);
+                                }
+                                if (kucha[k].termite.hp == 0)
+                                {
+                                    kucha[k].termite = null;
+                                }
+                            }
+                            if (r == 2 & kucha[k].scarab != null)
+                            {
+                                if (kucha[k].scarab.hp != 0)
+                                {
+                                    kucha[k].termite.fight(null, null, null, kucha[k].scarab);
+                                }
+                                
+                            }
+                            if (r == 3 & kucha[k].butterfly != null)
+                            {
+                                if (kucha[k].butterfly.hp != 0)
+                                {
+                                    kucha[k].termite.fight(null, null, kucha[k].butterfly, null);
+                                }
+                                
+                            }
+                        }
+                    }
+
+                    for (int j = 0; j < colonies.Count; j++)
+                    {
+                        for (int k = 0; k < colonies[j].worker.Count; k++)
+                        {
+                            if (colonies[j].worker[k] == null)
+                            {
+                                colonies[j].worker.RemoveAt(k);
+                            }
+                        }
+                        for (int k = 0; k < colonies[j].worker2.Count; k++)
+                        {
+                            if (colonies[j].worker2[k] == null)
+                            {
+                                colonies[j].worker2.RemoveAt(k);
+                            }
+                        }
+                        for (int k = 0; k < colonies[j].warior.Count; k++)
+                        {
+                            if (colonies[j].warior[k] == null)
+                            {
+                                colonies[j].warior.RemoveAt(k);
+                            }
+                        }
+                        for (int k = 0; k < colonies[j].warior2.Count; k++)
+                        {
+                            if (colonies[j].warior2[k] == null)
+                            {
+                                colonies[j].warior2.RemoveAt(k);
+                            }
+                        }
+                    }
+
+                    reproduction(colonies, count);
+
+                    Console.WriteLine();
+                    Console.WriteLine("________________________");
+                    Console.WriteLine();
+                }
+
+                else if (comand == "информация")
+                {
+                    Console.WriteLine("Введите название колонии");
+                    col = Console.ReadLine();
+                    Console.WriteLine();
+                    Console.WriteLine("Введите <колония> если хотите увидеть информацию о колонии, <рабочий> - о рабочем, <воин> - о воине, <особое> - об особом насекомом");
+                    inf = Console.ReadLine();
+                    Console.WriteLine();
+                    if (inf == "колония")
+                    {
+                        foreach (Colony j in colonies)
+                        {
+                            if (j.name == col)
+                            {
+                                a = j;
+                                Console.WriteLine($" Королева \"{j.queen.name}\"");
+                                Console.WriteLine($" Общая популяция - {a.warior.Count + a.worker.Count + a.scarab.life + a.termite.life + a.butterfly.life + a.worker2.Count + a.warior2.Count - 4}");
+                                Console.WriteLine();
+                                Console.WriteLine($" <<<<<<<<<<<<< Рабочие >>>>>>>>>>>>>");
+                                Console.WriteLine();
+                                Console.WriteLine($" Тип : {j.worker[0].type}");
+                                Console.WriteLine($" ---- Параметры : Здоровье = {j.worker[0].hp}; Защита = {j.worker[0].armor}") ;
+                                Console.WriteLine($" ---- Количество : {j.worker.Count}");
+                                Console.WriteLine();
+                                Console.WriteLine($" Тип : {j.worker2[0].type}");
+                                Console.WriteLine($" ---- Параметры : Здоровье = {j.worker2[0].hp}; Защита = {j.worker2[0].armor}");
+                                Console.WriteLine($" ---- Количество : {j.worker2.Count}");
+                                Console.WriteLine();
+                                Console.WriteLine($" <<<<<<<<<<<<< Воины >>>>>>>>>>>>>");
+                                Console.WriteLine();
+                                Console.WriteLine($" Тип : {j.warior[0].type}");
+                                Console.WriteLine($" ---- Параметры : Здоровье = {j.warior[0].hp}; Защита = {j.warior[0].armor}");
+                                Console.WriteLine($" ---- Количество : {j.warior.Count}");
+                                Console.WriteLine();
+                                Console.WriteLine($" Тип : {j.warior2[0].type}");
+                                Console.WriteLine($" ---- Параметры : Здоровье = {j.warior2[0].hp}; Защита = {j.warior2[0].armor}");
+                                Console.WriteLine($" ---- Количество : {j.warior2.Count}");
+                                Console.WriteLine();
+                                Console.WriteLine($" <<<<<<<<<<<<< Особое насекомое >>>>>>>>>>>>>");
+                                Console.WriteLine();
+                                if (j.scarab.life == 1)
+                                {
+                                    Console.WriteLine($" Название : {j.scarab.name}");
+                                    Console.WriteLine($" ---- Параметры : Здоровье = {j.scarab.hp}; Защита = {j.scarab.armor}; Атака = {j.scarab.damage}");
+                                    Console.WriteLine($" ---- Бонусы : {j.scarab.bonus}");
+                                }
+                                if (j.termite.life == 1)
+                                {
+                                    Console.WriteLine($" Название : {j.termite.name}");
+                                    Console.WriteLine($" ---- Параметры : Здоровье = {j.termite.hp}; Защита = {j.termite.armor}; Атака = {j.termite.damage}");
+                                    Console.WriteLine($" ---- Бонусы : {j.termite.bonus}");
+                                }
+                                if (j.butterfly.life == 1)
+                                {
+                                    Console.WriteLine($" Название : {j.butterfly.name}");
+                                    Console.WriteLine($" ---- Параметры : Здоровье = {j.butterfly.hp}; Защита = {j.butterfly.armor}; Атака = {j.butterfly.damage}");
+                                    Console.WriteLine($" ---- Бонусы : {j.butterfly.bonus}");
+                                }
+                                Console.WriteLine();
+                            }
+                        }
+                    }
+                    if (inf == "рабочий")
+                    {
+                        foreach (Colony j in colonies)
+                        {
+                            if (j.name == col)
+                            {
+                                Console.WriteLine($"Тип : {j.worker[0].type}");
+                                Console.WriteLine($"Параметры : Здоровье = {j.worker[0].hp}; Защита = {j.worker[0].armor}");
+                                Console.WriteLine($"Королева : {j.queen.name}");
+                                Console.WriteLine();
+                                Console.WriteLine($"Тип : {j.worker2[0].type}");
+                                Console.WriteLine($"Параметры : Здоровье = {j.worker2[0].hp}; Защита = {j.worker2[0].armor}");
+                                Console.WriteLine($"Королева : {j.queen.name}");
+                                Console.WriteLine();
+                            }
+                        }
+                    }
+                    if (inf == "воин")
+                    {
+                        foreach (Colony j in colonies)
+                        {
+                            if (j.name == col)
+                            {
+                                Console.WriteLine($" Тип : {j.warior[0].type}");
+                                Console.WriteLine($" Параметры : Здоровье = {j.warior[0].hp}; Защита = {j.warior[0].armor}; Атака = {j.warior[0].damage}");
+                                Console.WriteLine($"Королева : {j.queen.name}");
+                                Console.WriteLine();
+                                Console.WriteLine($" Тип : {j.warior2[0].type}");
+                                Console.WriteLine($" Параметры : Здоровье = {j.warior2[0].hp}; Защита = {j.warior2[0].armor}; Атака = {j.warior2[0].damage}");
+                                Console.WriteLine($"Королева : {j.queen.name}");
+                                Console.WriteLine();
+                            }
+                        }
+                    }
+                    if (inf == "особое")
+                    {
+                        foreach (Colony j in colonies)
+                        {
+                            if (j.name == col)
+                            {
+                                if (j.scarab.life == 1)
+                                {
+                                    Console.WriteLine($" Название : {j.scarab.name}");
+                                    Console.WriteLine($" Параметры : Здоровье = {j.scarab.hp}; Защита = {j.scarab.armor}; Атака = {j.scarab.damage}");
+                                    Console.WriteLine($" Бонусы : {j.scarab.bonus}");
+                                }
+                                if (j.termite.life == 1)
+                                {
+                                    Console.WriteLine($" Название : {j.termite.name}");
+                                    Console.WriteLine($" Параметры : Здоровье = {j.termite.hp}; Защита = {j.termite.armor}; Атака = {j.termite.damage}");
+                                    Console.WriteLine($" Бонусы : {j.termite.bonus}");
+                                }
+                                if (j.butterfly.life == 1)
+                                {
+                                    Console.WriteLine($" Название : {j.butterfly.name}");
+                                    Console.WriteLine($" Параметры : Здоровье = {j.butterfly.hp}; Защита = {j.butterfly.armor}; Атака = {j.butterfly.damage}");
+                                    Console.WriteLine($" Бонусы : {j.butterfly.bonus}");
+                                }
+                                if ((j.butterfly.life == 0) & (j.scarab.life == 0) & (j.termite.life == 0))
+                                {
+                                    Console.WriteLine("В этой колонии нет особых насекомых");
+                                }
+                                Console.WriteLine();
+                            }
+                        }
+                    }
+
+                }
+
+                else if (comand == "стоп")
+                {
+                    break;
+                }
+
+                else
+                {
+                    Console.WriteLine("Команда не распознана. Попробуйте ещё раз");
+                }
+
+            }
+            
+        }
+
+        class Ant
+        {
+            public int hp;
+            public int armor;
+            public int damage;
+            public int colony;
+            public int num;
+
+            public Ant(int colony, int num, int hp = 1, int armor = 0, int damage = 0)
+            {
+                this.hp = hp;
+                this.armor = armor;
+                this.damage = damage;
+                this.colony = colony;
+                this.num = num;
+            }
+        }
+
+        class Queen : Ant
+        {
+            public string name;
+            public int[] cycle;
+            public int[] kor;
+            public int start;
+            public int count;
+
+            public Queen(string name, int[] cycle, int[] kor, int colony, int num, int start, int hp = 1, int armor = 0, int damage = 0) : base(colony, num, hp, armor, damage)
+            {
+                this.name = name;
+                this.cycle = cycle;
+                this.kor = kor;
+                this.start = start;
+                this.count = new Random().Next(this.cycle[0], this.cycle[1]);
+            }
+
+            public void timer()
+            {
+                if (this.count > 0)
+                {
+                    this.count -= 1;
+                }
+                
+                if (this.count == 0)
+                {
+                    this.count = new Random().Next(this.cycle[0], this.cycle[1]);
+                }
+            }
+        }
+
+        class Worker : Ant
+        {
+            public string type;
+            public int leaf;
+            public int branch;
+            public int stone;
+            public int water;
+            public int bad;
+            public int count;
+
+            public Worker( string type, int colony, int num, int leaf, int branch, int stone, int water, int count, int hp = 1, int armor = 0, int damage = 0) : base(colony, num, hp, armor, damage)
+            {
+                this.type = type;
+                this.leaf = leaf;
+                this.branch = branch;
+                this.stone = stone;
+                this.water = water;
+                this.count = count;
+            }
+        }
+
+        class Warior : Ant
+        {
+            public string type;
+            public int attack_num;
+            public int bad;
+            public int target;
+
+            public Warior(int bad,  string type, int colony, int num, int target = 1, int attack_num = 1, int hp = 1, int armor = 1, int damage = 1) : base(colony, num, hp, armor, damage)
+            {
+                this.type = type;
+                this.attack_num = attack_num;
+                this.bad = bad;
+                this.target = target;
+            }
+
+            public void fight( Worker work, Warior war)
+            {
+                Worker worker = work;
+                Warior warior = war;
+                if (worker != null)
+                {
+                    if (worker.colony != this.colony)
+                    {
+                        worker.armor = worker.armor - this.damage;
+                        if (worker.armor < 0)
+                        {
+                            worker.hp = worker.hp + worker.armor;
+                            worker.armor = 0;
+                        }
+                    }
+                }
+
+                if (warior != null)
+                {
+                    if (warior.colony != this.colony)
+                    {
+                        warior.armor = warior.armor - this.damage;
+                        if (warior.bad == 0)
+                        {
+                            this.armor = this.armor - warior.damage;
+                        }
+                        if (warior.armor < 0)
+                        {
+                            warior.hp = warior.hp + warior.armor;
+                            warior.armor = 0;
+                        }
+                        if (this.armor < 0)
+                        {
+                            this.hp = this.hp + this.armor;
+                            this.armor = 0;
+                        }
+                    }
+                }
+                
+            }
+        }
+
+        class Scarab : Ant
+        {
+            public int life;
+            public int bad;
+            public string name;
+            public int leaf;
+            public int branch;
+            public int stone;
+            public int water;
+            public string bonus;
+            public int count;
+
+            public Scarab(string bonus, int life, int bad, int colony, int leaf, int branch, int stone, int water, int count, int hp = 1, int armor = 0, int damage = 0) : base(colony, hp, armor, damage)
+            {
+                this.life = life;
+                this.bad = bad;
+                this.bonus = bonus;
+                this.leaf = leaf;
+                this.branch = branch;
+                this.stone = stone;
+                this.water = water;
+                this.count = count;
+            }
+
+        }
+
+        class Termite : Ant
+        {
+            public int life;
+            public int bad;
+            public string name;
+            public string bonus;
+            public int count;
+
+            public Termite( string bonus, int life, int bad, int colony, int hp = 1, int armor = 0, int damage = 0) : base(colony, hp, armor, damage)
+            {
+                this.life = life;
+                this.bad = bad;
+                this.bonus = bonus;
+            }
+
+            public void fight(Worker worker, Warior warior, Butterfly butterfly, Scarab scarab)
+            {
+                if (worker != null)
+                {
+                    if (worker.colony != this.colony)
+                    {
+                        worker.armor = worker.armor - (this.damage * 2);
+                        if (worker.armor < 0)
+                        {
+                            worker.hp = worker.hp + worker.armor;
+                            worker.armor = 0;
+                        }
+                    }
+                }
+                if (warior != null)
+                {
+                    if (warior.colony != this.colony)
+                    {
+                        warior.armor = warior.armor - (this.damage * 2);
+                        this.armor = this.armor - warior.damage;
+
+                        if (warior.armor < 0)
+                        {
+                            warior.hp = warior.hp + warior.armor;
+                            warior.armor = 0;
+                        }
+                        if (this.armor < 0)
+                        {
+                            this.hp = this.hp + this.armor;
+                            this.armor = 0;
+                        }
+                    }
+                }
+                if (scarab != null)
+                {
+                    if (scarab.colony != this.colony)
+                    {
+                        scarab.armor = scarab.armor - this.damage;
+                        if (scarab.armor < 0)
+                        {
+                            scarab.hp = scarab.hp + scarab.armor;
+                            scarab.armor = 0;
+                        }
+                    }
+                }
+                if (butterfly != null)
+                {
+                    if (butterfly.colony != this.colony)
+                    {
+                        butterfly.armor = butterfly.armor - (this.damage * 2);
+                        this.armor = this.armor - butterfly.damage;
+
+                        if (butterfly.armor < 0)
+                        {
+                            butterfly.hp = butterfly.hp + butterfly.armor;
+                            butterfly.armor = 0;
+                        }
+                        if (this.armor < 0)
+                        {
+                            this.hp = this.hp + this.armor;
+                            this.armor = 0;
+                        }
+                    }
+                }
+                
+            }
+        }
+
+
+        class Butterfly : Ant
+        {
+            public int life;
+            public int bad;
+            public string name;
+            public int leaf;
+            public int branch;
+            public int stone;
+            public int water;
+            public int count;
+            public string bonus;
+
+            public Butterfly(string bonus, int life, int bad, int colony, int leaf, int branch, int stone, int water, int count, int hp = 1, int armor = 0, int damage = 0) : base(colony, hp, armor, damage)
+            {
+                this.life = life;
+                this.bad = bad;
+                this.bonus = bonus;
+                this.leaf = leaf;
+                this.branch = branch;
+                this.stone = stone;
+                this.water = water;
+                this.count = count;
+            }
+
+        }
+
+        struct Colony
+        {
+            public string name;
+            public int leaf;
+            public int branch;
+            public int stone;
+            public int water;
+            public Queen queen;
+            public List<Worker> worker;
+            public List<Warior> warior;
+            public List<Worker> worker2;
+            public List<Warior> warior2;
+            public Scarab scarab;
+            public Termite termite;
+            public Butterfly butterfly;
+
+            public Colony(string name, Queen queen) : this()
+            {
+                this.name = name;
+                this.queen = queen;
+                this.worker = new List<Worker>();
+                this.worker2 = new List<Worker>();
+                this.warior = new List<Warior>();
+                this.warior2 = new List<Warior>();
+                this.branch = 0;
+                this.leaf = 0;
+                this.stone = 0;
+                this.water = 0;
+            }
+            public void Leaf(int a)
+            {
+                this.leaf += a;
+            }
+            public void Branch(int a)
+            {
+                this.branch += a;
+            }
+            public void Stone(int a)
+            {
+                this.stone += a;
+            }
+            public void Water(int a)
+            {
+                this.water += a;
+            }
+        }
+
+        static void reproduction(List<Colony> colonies, int count)
+        {
+            for (int j = 0; j < count; j++)
+            {
+                if (colonies[j].queen.count == 0)
+                {
+                    if (colonies[j].queen.start == 0)
+                    {
+                        Random random = new Random();
+                        for (int g = 0; g < colonies[j].queen.kor[random.Next(0,1)]; g++)
+                        {
+                            if (random.Next(1,11) > 5)
+                            {
+                                if (colonies[j].queen.colony == 1)
+                                {
+                                    colonies.Add(new Colony(create_name(random), new Queen(create_name(random), new int[] { 2, 4 }, new int[] { 3, 4 }, 1, count, 1, 3, 1, 1)));
+                                }
+                                if (colonies[j].queen.colony == 2)
+                                {
+                                    colonies.Add(new Colony(create_name(random), new Queen(create_name(random), new int[] { 2, 3 }, new int[] { 3, 4 }, 2, count, 1, 2, 0, 2)));
+                                }
+                                if (colonies[j].queen.colony == 3)
+                                {
+                                    colonies.Add(new Colony(create_name(random), new Queen(create_name(random), new int[] { 1, 3 }, new int[] { 1, 5 }, 3, count, 1, 5, 2, 0)));
+                                }
+                                count += 1;
+                            }
+                        }
+                    }
+                }
+                for (int g = 0; g < 7; g++)
+                {
+                    if (colonies[j].queen.colony == 1)
+                    {
+                        colonies[j].worker.Add(new Worker("легендарный", 1, colonies[j].queen.num, 1, 1, 2, 3, 3));
+                    }
+                    if (colonies[j].queen.colony == 2)
+                    {
+                        colonies[j].worker.Add(new Worker("старший", 2, colonies[j].queen.num, 2, 1, 2, 1, 1));
+                    }
+                    if (colonies[j].queen.colony == 3)
+                    {
+                        colonies[j].worker.Add(new Worker("легендарный", 3, colonies[j].queen.num, 1, 2, 2, 2, 3));
+                    }
+                }
+                for (int g = 0; g < 7; g++)
+                {
+                    if (colonies[j].queen.colony == 1)
+                    {
+                        colonies[j].worker2.Add(new Worker("легендарный крепкий", 1, colonies[j].queen.num, 2, 2, 2, 1, 3, 1, 1, 0));
+                    }
+                    if (colonies[j].queen.colony == 2)
+                    {
+                        colonies[j].worker2.Add(new Worker("легендарный бригадир", 2, colonies[j].queen.num, 2, 2, 2, 1, 3));
+                    }
+                    if (colonies[j].queen.colony == 3)
+                    {
+                        colonies[j].worker2.Add(new Worker("старший бригадир", 3, colonies[j].queen.num, 1, 2, 2, 1, 1));
+                    }
+                }
+                for (int g = 0; g < 7; g++)
+                {
+                    if (colonies[j].queen.colony == 1)
+                    {
+                        colonies[j].warior.Add(new Warior(0, "обычный", 1, colonies[j].queen.num));
+                    }
+                    if (colonies[j].queen.colony == 2)
+                    {
+                        colonies[j].warior.Add(new Warior(0, "старший", 2, colonies[j].queen.num));
+                    }
+                    if (colonies[j].queen.colony == 3)
+                    {
+                        colonies[j].warior.Add(new Warior(0, "продвинутый", 3, colonies[j].queen.num, 2));
+                    }
+                }
+                for (int g = 0; g < 7; g++)
+                {
+                    if (colonies[j].queen.colony == 1)
+                    {
+                        colonies[j].warior2.Add(new Warior(0, "продвинутый худой", 1, colonies[j].queen.num, 2, 1, 1, 0));
+                    }
+                    if (colonies[j].queen.colony == 2)
+                    {
+                        colonies[j].warior2.Add(new Warior(1, "обычный аномальный", 2, colonies[j].queen.num));
+                    }
+                    if (colonies[j].queen.colony == 3)
+                    {
+                        colonies[j].warior2.Add(new Warior(0, "старший сосредоточенный", 3, colonies[j].queen.num, 1, 1, 1, 1, 2));
+                    }
+                }
+            }
+        }
+
+        static string create_name(Random random)
+        {
+            string[] names = { "а", "б", "в", "г", "д", "е", "ё", "ж", "з", "и", "й", "к", "л", "м", "н", "о", "п", "р", "с", "т", "у", "ф", "х", "ц", "ч", "ш", "щ", "ъ", "ы", "ь", "э", "ю", "я" };
+            string n = names[random.Next(0,32)];
+            for (int s = 0; s < random.Next(1,15); s++)
+            {
+                n = n + names[random.Next(0, 32)];
+            }
+            return n;
+        }
+
+        struct Kucha
+        {
+            public List<Warior> wariors;
+            public List<Worker> workers;
+            public Scarab scarab;
+            public Termite termite;
+            public Butterfly butterfly;
+            public int leaf;
+            public int branch;
+            public int stone;
+            public int water;
+
+            public Kucha(int leaf, int branch, int stone, int water):this()
+            {
+                this.leaf = leaf;
+                this.branch = branch;
+                this.stone = stone;
+                this.water = water;
+                this.workers = new List<Worker>();
+                this.wariors = new List<Warior>();
+            }
+        }
+     
+    }
+}
